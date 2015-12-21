@@ -1,0 +1,25 @@
+{
+  "name": "panel9",
+  "version": "1.0.0",
+  "description": "Workspace management dashboard for the open-sourced version of cloud9",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harjot1Singh/panel9.git"
+  },
+  "author": "Harjot Singh",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Harjot1Singh/panel9/issues"
+  },
+  "homepage": "https://github.com/Harjot1Singh/panel9#readme",
+  "dependencies": {
+    "custom-logger": "^0.3.1",
+    "express": "^4.13.3",
+    "nconf": "^0.8.2"
+  }
+}
