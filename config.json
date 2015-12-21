@@ -1,0 +1,21 @@
+{
+    "port": 8080,
+    "auth": {
+        "local": {
+            "enabled": true,
+            "username": "user",
+            "password": "pass"
+        },
+        "github": {
+            "enabled": false,
+            "clientID": "",
+            "clientSecret": ""
+        },
+        "facebook": {
+            "enabled": false
+        },
+        "googleplus": {
+            "enabled": false
+        }
+    }
+}
