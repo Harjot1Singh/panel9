@@ -7,6 +7,10 @@ var log = require('./logger');
 /* Load Config - config returns nconf */
 var config = require('./configLoader');
 var port = config.get('port');
+// Set logger level
+log.config({
+    level: config.get('logLevel')
+});
 
 /* Express/HTTP server */
 var express = require('express');

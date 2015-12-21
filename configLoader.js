@@ -12,9 +12,11 @@ catch (error) {
     log.error('config.json does not exist, or is malformed. Please check your config.json file');
     process.exit(1);
 }
+
 // Set up defaults - here to know what config.json should include
 nconf.defaults({
     "port": 8080,
+    "logLevel" : 0,
     "auth": {
         "local": {
             "enabled": true,

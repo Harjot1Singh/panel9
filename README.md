@@ -18,6 +18,10 @@ A previous installation of cloud9 is not required.
 
 ## Configuration
 
+Set `enabled` to `true` for the authentication type, if you wish to use it.
+
+`logLevel` can be 0, 1, 2, 3 - which respectively logs events that debug and above, info, warnings, and errors.
+
 ## Launch
 
 ## Todo
