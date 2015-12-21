@@ -16,7 +16,7 @@ catch (error) {
 // Set up defaults - here to know what config.json should include
 nconf.defaults({
     "port": 8080,
-    "logLevel" : 0,
+    "logLevel" : 1,
     "auth": {
         "local": {
             "enabled": true,

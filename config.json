@@ -1,6 +1,6 @@
 {
     "port": 8080,
-    "logLevel" : 1,
+    "logLevel" : 0,
     "auth": {
         "local": {
             "enabled": true,

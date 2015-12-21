@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Harjot1Singh/panel9#readme",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "custom-logger": "^0.3.1",
     "express": "^4.13.3",
     "nconf": "^0.8.2"

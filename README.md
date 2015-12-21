@@ -17,6 +17,7 @@ Requires [node.js](http://nodejs.org) v4.2.3 LTS.
 A previous installation of cloud9 is not required.
 
 ## Configuration
+**Options can be found in the `config.json` file**
 
 Set `enabled` to `true` for the authentication type, if you wish to use it.
 
