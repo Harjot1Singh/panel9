@@ -22,10 +22,9 @@ var Manager = function() {
 
 // Returns an array containing workspace objects for specific user
 Manager.prototype.getWorkspaces = function(user, callback) {
-    var self = this;
     // Fetch from DB
     log.debug('Fetching workspaces from DB for', user);
-    self.db.all(queries.getWorkspaces, [user], function(err, data) {
+    this.db.all(queries.getWorkspaces, [user], function(err, data) {
         // If error, log and quit
         if (err) {
             log.error('Failed to get workspaces from DB for', user, ':', err);
@@ -38,23 +37,37 @@ Manager.prototype.getWorkspaces = function(user, callback) {
 
 // Returns workspace object given name
 Manager.prototype.getWorkspace = function(workspace, callback) {
-    var self = this;
     // Fetch single workspace from DB
     log.debug('Trying to get workspace', workspace);
-    self.db.get(queries.getWorkspace, [workspace], function(err, data) {
+    this.db.get(queries.getWorkspace, [workspace], function(err, data) {
         // If error, log and quit
         if (err) {
             log.error('Failed to get workspace ', workspace, ':', err);
-            callback(null);
+            return callback();
         }
         log.debug('Retrieved workspace', workspace);
         callback(data);
     });
 };
 
-// Create a workspace for user
+// Create a workspace
 Manager.prototype.createWorkspace = function(workspace, callback) {
-
+    // Insert into DB
+    log.debug('Inserting workspace', workspace.name, 'into DB');
+    this.db.run(queries.createWorkspace, [workspace.name, workspace.killAfter], function(err) {
+        // If error, callback it
+        if (err) {
+            // Must already exist, so return that they must chose a new name
+            if (err.code === "SQLITE_CONSTRAINT")
+                return callback('Workspace with name ' + workspace.name + ' already exists');
+            log.error('Failed to create workspace', workspace.name);
+            // Otherwise unknown
+            return callback('Internal error: ' + err.code);
+        }
+        // Else it was successful
+        log.debug('Successfully inserted workspace', workspace.name, 'into DB');
+        callback();
+    });
 };
 
 // Update a workspace
@@ -64,6 +77,36 @@ Manager.prototype.updateWorkspace = function(workspace) {
 
 // Deletes a workspace for a user
 Manager.prototype.deleteWorkspace = function() {
+
+};
+
+// Adds user to workspace
+Manager.prototype.addUserToWorkspace = function(user, workspace, callback) {
+    // Insert into workspaceUsers table
+    log.debug('Inserting', user, 'into', workspace);
+    this.db.run(queries.addToWorkspace, [user.email, workspace, user.writeAccess, user.isAdmin], function(err) {
+        // If error, callback it
+        if (err) {
+            log.error('Failed to add user', user.name, 'to workspace', workspace);
+            // If violates constraint, it's because user is already part of workspace
+            if (err.code === 'SQLITE_CONSTRAINT')
+                return callback('User ' + user.name + ' is already part of ' + workspace);
+            // Otherwise unknown error
+            return callback('Internal error: ' + err.code);
+        }
+        log.debug('Successfully added', user, 'into', workspace);
+        // Successful
+        callback();
+    });
+};
+
+// Deletes a user from the workspace
+Manager.prototype.removeUserFromWorkspace = function(user, workspace, callback) {
+
+};
+
+// Updates an existing user in the workspace
+Manager.prototype.updateUserInWorkspace = function(user, workspace, callback) {
 
 };
 

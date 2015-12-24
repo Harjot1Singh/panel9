@@ -1,7 +1,7 @@
 /* The properties a workspace has */
 
-// Grab the User schema
-var User = require('./user');
+// Grab the WorkspaceUser schema
+var WorkspaceUser = require('./workspaceUser');
 
 var Workspace = {
     'name': { // Name of workspace
@@ -15,19 +15,9 @@ var Workspace = {
     },
     'users': { // Other users who can access the workspace
         type: Array,
-        required: true,
-        schema: { // An array 
+        schema: { // An array of workspaceUser
             type: Object,
-            schema: { // Of objects
-                user: { // The actual user object
-                    type: User,
-                    required: true
-                },
-                writeAccess : { // Whether user can edit workspace or not
-                    type: Boolean,
-                    required: true
-                }
-            }
+            schema: WorkspaceUser
         }
     }
 };

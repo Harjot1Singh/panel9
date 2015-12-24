@@ -29,17 +29,28 @@ module.exports = function() {
         .post(validator.workspace, function(req, res) { // Creates a workspace for given user
             // Add workspace to manager
             manager.createWorkspace(req.body, function(err) {
-                var result;
-                // Return success or err message
+                // Return friendly err message if a problem occurred
                 if (err)
-                    result = {
+                    return res.status(400).json({
                         'err': err
-                    };
-                else
-                    result = {
-                        'success': 'Workspace created successfully'
-                    };
-                res.json(result);
+                    });
+                // Otherwise continue to insert this user as the admin
+                var user = {
+                    email: req.params.user,
+                    writeAccess: 1,
+                    isAdmin: 1
+                };
+                manager.addUserToWorkspace(user, req.body.name, function(err) {
+                    // If failed, obscure error
+                    if (err)
+                        return res.status(500).json({
+                            'err': 'Unknown error occurred'
+                        });
+                    // Otherwise respond with success
+                    res.json({
+                        'success' : 'Created workspace ' + req.body.name + ' for ' + req.params.user
+                    });
+                });
             });
         });
 
