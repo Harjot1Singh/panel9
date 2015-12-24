@@ -3,6 +3,7 @@ var isValid = require('isvalid');
 // Load schemas
 var User = require('./models/user');
 var Workspace = require('./models/workspace');
+var WorkspaceUser = require('./models/workspaceUser');
 
 // Overwrite validate to return user-friendly error message
 var validate = function(schema, req, res, next) {
@@ -28,6 +29,10 @@ Validator.user = function(req, res, next) {
     validate(User, req, res, next);
 };
 
+// Validates a single user
+Validator.workspaceUser = function(req, res, next) {
+    validate(WorkspaceUser, req, res, next);
+};
 
 
 module.exports = Validator;
