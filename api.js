@@ -29,16 +29,14 @@ module.exports = function() {
             var result;
             // Add workspace to manager
             // Return success or err message
-            if (manager.add(req.body)) {
+            if (manager.createWorkspace(req.body))
                 result = {
                     'success': 'Workspace created successfully'
                 };
-            }
-            else {
+            else
                 result = {
                     'err': 'Error creating workspace'
                 };
-            }
             res.json(result);
         });
 
@@ -48,16 +46,14 @@ module.exports = function() {
             var result;
             // Update workspace via manager
             // Return success or err message
-            if (manager.update(req.body)) {
+            if (manager.updateWorkspace(req.body))
                 result = {
                     'success': 'Workspace update successfully'
                 };
-            }
-            else {
+            else
                 result = {
                     'err': 'Error updating workspace'
                 };
-            }
             res.json(result);
         })
         .delete(function(req, res) { // deleteetes given workspace

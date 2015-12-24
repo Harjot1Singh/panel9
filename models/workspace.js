@@ -8,15 +8,30 @@ var Workspace = {
         type: String,
         required: true
     },
-    'killAfter' : { // Kill workspace after x MINUTES of inactivity. Null if forever alive
+    'killAfter': { // Kill workspace after x MINUTES of inactivity. Null if forever alive
         type: Number,
         required: true,
         allowNull: true
     },
-    'collaborators' : { // Permissions for collaborators - not used yet
+    'creator': { // The admin/creator of workspace's email address
+        type: String,
+        required: true
+    },
+    'collaborators': { // Other users who can access the workspace
         type: Array,
-        required: false,
-        schema: User
+        schema: { // An array 
+            type: Object,
+            schema: { // Of objects
+                user: { // The actual user object
+                    type: User,
+                    required: true
+                },
+                writeAccess : { // Whether user can edit workspace or not
+                    type: Boolean,
+                    required: true
+                }
+            }
+        }
     }
 };
 

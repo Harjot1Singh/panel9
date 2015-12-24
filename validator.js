@@ -23,6 +23,11 @@ Validator.workspace = function(req, res, next) {
     validate(Workspace, req, res, next);
 };
 
+// Validates a single user
+Validator.user = function(req, res, next) {
+    validate(User, req, res, next);
+};
+
 
 
 module.exports = Validator;
