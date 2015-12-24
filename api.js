@@ -16,32 +16,49 @@ module.exports = function() {
     // GET and POST for /workspaces
     router.route('/workspaces/:user')
         .get(function(req, res) { // Returns an array of workspaces user owns
-            var workspaceList = manager.getWorkspaces(req.params.user);
-            // Sends workspaces as array
-            if (workspaceList)
-                res.json(workspaceList);
-            else
-                res.status(404).json({
-                    'err': 'User not found'
-                });
+            manager.getWorkspaces(req.params.user, function(workspaceList) {
+                // Sends workspaces as array
+                if (workspaceList)
+                    res.json(workspaceList);
+                else
+                    res.status(500).json({
+                        'err': 'Internal server error'
+                    });
+            });
         })
         .post(validator.workspace, function(req, res) { // Creates a workspace for given user
-            var result;
             // Add workspace to manager
-            // Return success or err message
-            if (manager.createWorkspace(req.body))
-                result = {
-                    'success': 'Workspace created successfully'
-                };
-            else
-                result = {
-                    'err': 'Error creating workspace'
-                };
-            res.json(result);
+            manager.createWorkspace(req.body, function(err) {
+                var result;
+                // Return success or err message
+                if (err)
+                    result = {
+                        'err': err
+                    };
+                else
+                    result = {
+                        'success': 'Workspace created successfully'
+                    };
+                res.json(result);
+            });
         });
 
     // PUT and delete for specific workspaces    
-    router.route('/workspaces/:user/:workspace')
+    router.route('/workspace/:workspace')
+        .get(function(req, res) { // Returns an array of user object part of workspace 
+            manager.getWorkspace(req.params.workspace, function(workspace) {
+                if (workspace)
+                    res.json(workspace);
+                else
+                    res.status(404).json({
+                        'err': 'Workspace ' + req.params.workspace + ' not found'
+                    });
+            });
+
+        })
+        .post(function(req, res) { // Adds given user to given workspace
+
+        })
         .put(validator.workspace, function(req, res) { // Updates given workspace
             var result;
             // Update workspace via manager
@@ -59,6 +76,16 @@ module.exports = function() {
         .delete(function(req, res) { // deleteetes given workspace
 
         });
+
+    // PUT and delete for all users of a specific user's workspace
+    router.route('/workspace/:workspace/users/:collaborator')
+        .put(function(req, res) { // Updates rights of collaborator
+
+        })
+        .delete(function(req, res) { // deletes collaborator from workspace
+
+        });
+
 
     /* User Routes */
 
@@ -84,26 +111,6 @@ module.exports = function() {
 
         });
 
-    /* Workspace-User Routes */
-
-    // GET and POST for all users of a workspace
-    router.route('/workspaces/:user/:workspace/users')
-        .get(function(req, res) { // Returns an array of user object part of workspace 
-
-
-        })
-        .post(function(req, res) { // Adds given user to given workspace
-
-        });
-
-    // PUT and delete for all users of a specific user's workspace
-    router.route('/workspaces/:user/:workspace/users/:collaborator')
-        .put(function(req, res) { // Updates rights of collaborator
-
-        })
-        .delete(function(req, res) { // deleteetes collaborator from workspace
-
-        });
 
     return router;
 };

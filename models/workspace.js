@@ -13,11 +13,7 @@ var Workspace = {
         required: true,
         allowNull: true
     },
-    'creator': { // The admin/creator of workspace's email address
-        type: String,
-        required: true
-    },
-    'collaborators': { // Other users who can access the workspace
+    'users': { // Other users who can access the workspace
         type: Array,
         required: true,
         schema: { // An array 

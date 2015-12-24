@@ -8,40 +8,52 @@ var log = require('./logger');
 
 // Object that manages workspaces
 var Manager = function() {
-    log.debug('Checking/creating "workspaces" directory');    
+    log.debug('Checking/creating "workspaces" directory');
     // Create workspaces directory if it doesn't exist
     mkdirp.sync('workspaces');
     // Load DB
     log.info('Loading SQLite3 database');
     this.db = new sqlite3.Database('./workspaces/panel9.db');
     log.debug('Checking/creating tables');
-    this.db.run(queries.createTables);
-    // Holds a list of users and their workspaces
-    this.workspaces = {};
+    this.db.exec(queries.createTables);
 };
 
 /* Workspace */
 
 // Returns an array containing workspace objects for specific user
-Manager.prototype.getWorkspaces = function(user) {
-    // Return from workspaces cache if it exists
-    if (this.workspaces[user]) {
-        log.debug('Loading workspaces from cache for', user);
-        return this.workspaces[user];
-    }
-    // Try to fetch from DB otherwise
-    this.db.all(queries.userWorkspaces, [user], function(err, data) {
-        
+Manager.prototype.getWorkspaces = function(user, callback) {
+    var self = this;
+    // Fetch from DB
+    log.debug('Fetching workspaces from DB for', user);
+    self.db.all(queries.getWorkspaces, [user], function(err, data) {
+        // If error, log and quit
+        if (err) {
+            log.error('Failed to get workspaces from DB for', user, ':', err);
+            callback(null);
+        }
+        log.debug('Retrieved workspaces from DB for', user);
+        callback(data);
     });
 };
 
-// Returns workspace object
-Manager.prototype.getWorkspace = function(workspace) {
-
+// Returns workspace object given name
+Manager.prototype.getWorkspace = function(workspace, callback) {
+    var self = this;
+    // Fetch single workspace from DB
+    log.debug('Trying to get workspace', workspace);
+    self.db.get(queries.getWorkspace, [workspace], function(err, data) {
+        // If error, log and quit
+        if (err) {
+            log.error('Failed to get workspace ', workspace, ':', err);
+            callback(null);
+        }
+        log.debug('Retrieved workspace', workspace);
+        callback(data);
+    });
 };
 
 // Create a workspace for user
-Manager.prototype.createWorkspace = function(workspace) {
+Manager.prototype.createWorkspace = function(workspace, callback) {
 
 };
 
@@ -54,7 +66,6 @@ Manager.prototype.updateWorkspace = function(workspace) {
 Manager.prototype.deleteWorkspace = function() {
 
 };
-
 
 /* Users */
 

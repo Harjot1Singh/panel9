@@ -3,26 +3,34 @@
 module.exports = {
     createTables: `
         CREATE TABLE IF NOT EXISTS Users (
-        	Email text,
-        	Name text,
-        	Password text
+        	email text,
+        	password text
         );
         
         CREATE TABLE IF NOT EXISTS Workspaces (
-        	Name text,
-        	KillAfter integer
+        	name text,
+        	killAfter integer
         );
         
         CREATE TABLE IF NOT EXISTS WorkspaceUsers (
-            Email text,
-	        Workspace text,
-	        WriteAccess integer,
-	        isOwner integer
+           	email text,
+	        name text,
+	        workspace text,
+	        writeAccess integer,
+	        isAdmin integer
         );`,
     getWorkspaces: `
         SELECT * 
         FROM WorkspaceUsers 
-        WHERE Email = ?;
-        `
-        
+        WHERE email = ?;
+        `,
+    getWorkspace: `
+        SELECT * 
+        FROM WorkspaceUsers 
+        WHERE workspace = ?;
+        `,
+    createWorkspace: `
+        INSERT INTO Workspaces 
+        VALUES (?,?,?,?);
+    `
 };
