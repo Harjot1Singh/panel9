@@ -24,7 +24,15 @@ var Manager = function() {
 
 // Returns an array containing workspace objects for specific user
 Manager.prototype.getWorkspaces = function(user) {
-
+    // Return from workspaces cache if it exists
+    if (this.workspaces[user]) {
+        log.debug('Loading workspaces from cache for', user);
+        return this.workspaces[user];
+    }
+    // Try to fetch from DB otherwise
+    this.db.all(queries.userWorkspaces, [user], function(err, data) {
+        
+    });
 };
 
 // Returns workspace object

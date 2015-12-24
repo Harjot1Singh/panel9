@@ -10,13 +10,19 @@ module.exports = {
         
         CREATE TABLE IF NOT EXISTS Workspaces (
         	Name text,
-        	Creator text,
         	KillAfter integer
         );
         
         CREATE TABLE IF NOT EXISTS WorkspaceUsers (
-        	Email text,
-        	Workspace text,
-        	WriteAccess integer
-        );`
+            Email text,
+	        Workspace text,
+	        WriteAccess integer,
+	        isOwner integer
+        );`,
+    getWorkspaces: `
+        SELECT * 
+        FROM WorkspaceUsers 
+        WHERE Email = ?;
+        `
+        
 };

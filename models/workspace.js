@@ -19,6 +19,7 @@ var Workspace = {
     },
     'collaborators': { // Other users who can access the workspace
         type: Array,
+        required: true,
         schema: { // An array 
             type: Object,
             schema: { // Of objects
