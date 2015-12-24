@@ -12,9 +12,12 @@ None - see todo.
 
 ## Install
 
-Requires [node.js](http://nodejs.org) v4.2.3 LTS. 
-
-A previous installation of cloud9 is not required.
+Requires [node.js](http://nodejs.org) v4.2.3 LTS.
+Docker and SQLite3 are also required: 
+```
+sudo apt-get install docker sqlite3
+```
+An installation of cloud9 is not required.
 
 ## Configuration
 **Options can be found in the `config.json` file**
@@ -35,7 +38,7 @@ Set `enabled` to `true` for the authentication type, if you wish to use it.
     - Facebook
     - Local
 - Multiple users
-- Approval of users per workspace
-
+    - Request to access workspace
+    - Read/Write permissions
 
 [Licensed under GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)

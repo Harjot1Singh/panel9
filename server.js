@@ -17,19 +17,22 @@ log.config({
 /* Express/HTTP server */
 var express = require('express');
 var app = express();
+// Use GZip compression
+var compress = require('compression');
+app.use(compress());
 
 // If debug, log every HTTP request
 if (logLevel === 0)
-    app.use(function(req, res) {
+    app.use(function(req, res, next) {
         // Assuming logger has log.GET etc
         log[req.method](req.url);
+        next();
     });
 
 // Forward /api requests to the api router
 var api = require('./api')();
 app.use('/api', api);
 
-//TODO Check auth by checking whether user's directory name matches logged in name on top, so trying other users URLs won't work
 //TODO Set up seperate passport auth file for strategies
 
 // Attach public to '/''

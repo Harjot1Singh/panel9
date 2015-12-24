@@ -19,8 +19,11 @@
   "homepage": "https://github.com/Harjot1Singh/panel9#readme",
   "dependencies": {
     "body-parser": "^1.14.2",
+    "compression": "^1.6.0",
     "custom-logger": "^0.3.1",
     "express": "^4.13.3",
-    "nconf": "^0.8.2"
+    "isvalid": "^1.3.3",
+    "nconf": "^0.8.2",
+    "sqlite3": "^3.1.1"
   }
 }

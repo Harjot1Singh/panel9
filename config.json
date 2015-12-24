@@ -4,7 +4,7 @@
     "auth": {
         "local": {
             "enabled": true,
-            "username": "user",
+            "email": "user",
             "password": "pass"
         },
         "github": {

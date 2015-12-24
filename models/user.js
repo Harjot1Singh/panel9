@@ -1,0 +1,1 @@
+/* The properties a user requires */ 
